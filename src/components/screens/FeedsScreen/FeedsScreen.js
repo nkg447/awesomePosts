@@ -35,9 +35,14 @@ export default class FeedsScreen extends Component {
             <Post
               title={info.item.title}
               userId={info.item.userId}
-              pressed={() =>
+              pressedPost={() =>
                 this.props.navigation.push("Post", {
                   postId: info.item.id,
+                  userId: info.item.userId
+                })
+              }
+              pressedUser={() =>
+                this.props.navigation.push("User", {
                   userId: info.item.userId
                 })
               }

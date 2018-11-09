@@ -18,12 +18,12 @@ class Post extends Component {
   render() {
     return (
       <View style={styles.postContainer}>
-        <TouchableNativeFeedback>
+        <TouchableNativeFeedback onPress={this.props.pressedUser}>
           <View style={styles.userContainer}>
             <Text style={styles.userText}>{this.state.username}</Text>
           </View>
         </TouchableNativeFeedback>
-        <TouchableNativeFeedback onPress={this.props.pressed}>
+        <TouchableNativeFeedback onPress={this.props.pressedPost}>
           <PostTitle>{this.props.title}</PostTitle>
         </TouchableNativeFeedback>
       </View>

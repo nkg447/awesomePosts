@@ -56,7 +56,13 @@ class PostScreen extends Component {
 
     return (
       <View>
-        <TouchableNativeFeedback>
+        <TouchableNativeFeedback
+          onPress={() =>
+            this.props.navigation.push("User", {
+              userId: this.state.userId
+            })
+          }
+        >
           <View style={styles.userContainer}>
             <Text style={styles.userText}>{this.state.username}</Text>
           </View>
