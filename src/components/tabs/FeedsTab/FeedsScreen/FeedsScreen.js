@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import Post from "../../Post/Post";
+import Post from "../../../Post/Post";
 
 export default class FeedsScreen extends Component {
   state = {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import TextBox from "../../UI/TextBox/TextBox";
+import TextBox from "../../../UI/TextBox/TextBox";
 
 class UserScreen extends Component {
   state = {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import PostTitle from "../../UI/PostTitle/PostTitle";
+import PostTitle from "../../../UI/PostTitle/PostTitle";
 import { View, Text, StyleSheet, TouchableNativeFeedback } from "react-native";
-import TextBox from "../../UI/TextBox/TextBox";
+import TextBox from "../../../UI/TextBox/TextBox";
 
 class PostScreen extends Component {
   state = {
