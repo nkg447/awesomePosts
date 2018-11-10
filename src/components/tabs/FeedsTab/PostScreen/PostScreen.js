@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PostTitle from "../../../UI/PostTitle/PostTitle";
 import { View, Text, StyleSheet, TouchableNativeFeedback } from "react-native";
+import { Card, CardItem, Spinner } from "native-base";
 import TextBox from "../../../UI/TextBox/TextBox";
 
 class PostScreen extends Component {
@@ -59,21 +60,28 @@ class PostScreen extends Component {
 
     return (
       <View>
-        <TouchableNativeFeedback
-          onPress={() =>
-            this.props.navigation.push("User", {
-              userId: this.state.userId
-            })
-          }
-        >
-          <View>
-            <TextBox>{this.state.username}</TextBox>
-          </View>
-        </TouchableNativeFeedback>
-        <View style={styles.postContainer}>
-          <PostTitle>{this.state.title}</PostTitle>
-          <Text>{this.state.body}</Text>
-        </View>
+        {!this.state.dataReceived ? <Spinner /> : null}
+        <Card>
+          <CardItem
+            header
+            button
+            onPress={() =>
+              this.props.navigation.push("User", {
+                userId: this.state.userId
+              })
+            }
+          >
+            <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+              {this.state.username}
+            </Text>
+          </CardItem>
+          <CardItem style={styles.postContainer}>
+            <View>
+              <Text style={{ fontWeight: "bold" }}>{this.state.title}</Text>
+              <Text>{this.state.body}</Text>
+            </View>
+          </CardItem>
+        </Card>
       </View>
     );
   }

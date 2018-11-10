@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
+import { Spinner } from "native-base";
 import Post from "../../../Post/Post";
 
 export default class FeedsScreen extends Component {
   state = {
     posts: [],
-    postsCapacity: 10
+    dataReceived: false
   };
 
   static navigationOptions = {
@@ -13,14 +14,15 @@ export default class FeedsScreen extends Component {
   };
 
   componentWillMount() {
-    if (this.state.posts.length == 0) {
+    if (!this.state.dataReceived) {
       fetch("https://burger-builder447.firebaseio.com/posts.json")
         .then(res => res.json())
         .then(res => {
           this.setState({
             posts: Object.keys(res).map(key => {
               return res[key];
-            })
+            }),
+            dataReceived: true
           });
         })
         .catch(err => {
@@ -33,6 +35,7 @@ export default class FeedsScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        {!this.state.dataReceived ? <Spinner /> : null}
         <FlatList
           data={this.state.posts}
           renderItem={info => (

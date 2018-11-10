@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, TouchableNativeFeedback } from "react-native";
-import PostTitle from "../UI/PostTitle/PostTitle";
+import { View, StyleSheet } from "react-native";
+import { Card, CardItem, Body, Text } from "native-base";
 import TextBox from "../UI/TextBox/TextBox";
 
 class Post extends Component {
@@ -22,16 +22,18 @@ class Post extends Component {
 
   render() {
     return (
-      <View style={styles.postContainer}>
-        <TouchableNativeFeedback onPress={this.props.pressedUser}>
+      <Card style={styles.postContainer}>
+        <CardItem header button onPress={this.props.pressedUser}>
           <View>
             <TextBox>{this.state.username}</TextBox>
           </View>
-        </TouchableNativeFeedback>
-        <TouchableNativeFeedback onPress={this.props.pressedPost}>
-          <PostTitle>{this.props.title}</PostTitle>
-        </TouchableNativeFeedback>
-      </View>
+        </CardItem>
+        <CardItem button onPress={this.props.pressedPost}>
+          <Body>
+            <Text>{this.props.title}</Text>
+          </Body>
+        </CardItem>
+      </Card>
     );
   }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { Card, CardItem, Spinner } from "native-base";
 import TextBox from "../../../UI/TextBox/TextBox";
 
 class UserScreen extends Component {
@@ -9,12 +10,6 @@ class UserScreen extends Component {
 
   fetchData() {
     if (!this.state.dataReceived) {
-      console.log(
-        "https://burger-builder447.firebaseio.com/users/" +
-          this.props.navigation.getParam("userId", "key-undef") +
-          ".json"
-      );
-
       fetch(
         "https://burger-builder447.firebaseio.com/users/" +
           this.props.navigation.getParam("userId", "key-undef") +
@@ -34,12 +29,21 @@ class UserScreen extends Component {
   render() {
     this.fetchData();
     return (
-      <View style={styles.container}>
-        <TextBox>{this.state.username}</TextBox>
-        <View style={styles.userInfoContainer}>
-          <Text>{this.state.name}</Text>
-          <Text>{this.state.email}</Text>
-        </View>
+      <View>
+        {!this.state.dataReceived ? <Spinner /> : null}
+        <Card style={styles.container}>
+          <CardItem header>
+            <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+              {this.state.username}
+            </Text>
+          </CardItem>
+          <CardItem cardBody style={styles.userInfoContainer}>
+            <View>
+              <Text>{this.state.name}</Text>
+              <Text>{this.state.email}</Text>
+            </View>
+          </CardItem>
+        </Card>
       </View>
     );
   }

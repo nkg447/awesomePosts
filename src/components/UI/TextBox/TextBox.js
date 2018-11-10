@@ -12,14 +12,12 @@ const styles = StyleSheet.create({
   userContainer: {
     borderColor: "#eee",
     borderWidth: 1,
-    margin: 2,
-    padding: 5,
-    alignItems: "flex-start",
-    backgroundColor: "white"
+    width: "100%"
   },
   userText: {
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 20,
+    padding: 2
   }
 });
 
