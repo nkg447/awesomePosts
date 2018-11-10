@@ -20,7 +20,10 @@ export default class FeedsScreen extends Component {
         .then(res => {
           this.setState({
             posts: Object.keys(res).map(key => {
-              return res[key];
+              return {
+                ...res[key],
+                postId: key
+              };
             }),
             dataReceived: true
           });
@@ -44,7 +47,7 @@ export default class FeedsScreen extends Component {
               userId={info.item.userId}
               pressedPost={() =>
                 this.props.navigation.push("Post", {
-                  postId: info.item.id,
+                  postId: info.item.postId,
                   userId: info.item.userId
                 })
               }
