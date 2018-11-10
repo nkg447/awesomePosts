@@ -15,7 +15,7 @@ class PostScreen extends Component {
   };
 
   static navigationOptions = {
-    title: "Awesome Posts"
+    title: "Post"
   };
 
   fetchData() {

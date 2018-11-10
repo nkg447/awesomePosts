@@ -8,6 +8,10 @@ class CreatePostScreen extends Component {
     body: null
   };
 
+  static navigationOptions = {
+    title: "Create Post"
+  };
+
   titleChangeHandler = value => {
     this.setState({
       title: value
@@ -17,6 +21,22 @@ class CreatePostScreen extends Component {
     this.setState({
       body: value
     });
+  };
+  postHandler = () => {
+    fetch("https://burger-builder447.firebaseio.com/posts.json", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: this.state.title,
+        body: this.state.body,
+        userId: this.props.screenProps.username,
+        timestamp: Math.floor(Date.now() / 1000)
+      })
+    });
+    this.props.navigation.navigate("FeedsTab");
   };
 
   render() {
@@ -34,7 +54,7 @@ class CreatePostScreen extends Component {
           />
         </Form>
         <View style={{ alignItems: "center" }}>
-          <Button>
+          <Button onPress={this.postHandler}>
             <Text>Post</Text>
           </Button>
         </View>

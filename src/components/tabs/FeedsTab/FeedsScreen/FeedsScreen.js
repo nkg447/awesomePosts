@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, RefreshControl } from "react-native";
 import { Spinner } from "native-base";
 import Post from "../../../Post/Post";
 
@@ -13,18 +13,22 @@ export default class FeedsScreen extends Component {
     title: "Awesome Posts"
   };
 
-  componentWillMount() {
+  fetchData() {
     if (!this.state.dataReceived) {
-      fetch("https://burger-builder447.firebaseio.com/posts.json")
+      fetch(
+        'https://burger-builder447.firebaseio.com/posts.json?orderBy="$key"&limitToLast=10'
+      )
         .then(res => res.json())
         .then(res => {
           this.setState({
-            posts: Object.keys(res).map(key => {
-              return {
-                ...res[key],
-                postId: key
-              };
-            }),
+            posts: Object.keys(res)
+              .map(key => {
+                return {
+                  ...res[key],
+                  postId: key
+                };
+              })
+              .reverse(),
             dataReceived: true
           });
         })
@@ -35,11 +39,26 @@ export default class FeedsScreen extends Component {
     }
   }
 
+  refreshHandler = () => {
+    console.log("ref");
+
+    this.setState({
+      dataReceived: false
+    });
+    this.fetchData();
+  };
+
   render() {
+    this.fetchData();
     return (
       <View style={styles.container}>
-        {!this.state.dataReceived ? <Spinner /> : null}
         <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={!this.state.dataReceived}
+              onRefresh={this.refreshHandler}
+            />
+          }
           data={this.state.posts}
           renderItem={info => (
             <Post

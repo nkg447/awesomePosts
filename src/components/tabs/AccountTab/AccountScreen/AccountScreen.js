@@ -1,21 +1,21 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Card, CardItem, Spinner } from "native-base";
+import { View, StyleSheet } from "react-native";
+import { Card, CardItem, Spinner, Text } from "native-base";
 
-class UserScreen extends Component {
+class AccountScreen extends Component {
   state = {
     dataReceived: false
   };
 
   static navigationOptions = {
-    title: "User"
+    title: "Your Account"
   };
 
   fetchData() {
     if (!this.state.dataReceived) {
       fetch(
         "https://burger-builder447.firebaseio.com/users/" +
-          this.props.navigation.getParam("userId", "key-undef") +
+          this.props.screenProps.username +
           ".json"
       )
         .then(res => res.json())
@@ -66,4 +66,5 @@ const styles = StyleSheet.create({
     padding: 10
   }
 });
-export default UserScreen;
+
+export default AccountScreen;

@@ -1,38 +1,76 @@
 import React, { Component } from "react";
-import { TabNavigator, TabBarBottom } from "react-navigation";
-import FeedsTab from "./src/components/tabs/FeedsTab/FeedsTab";
-import CreatePostTab from "./src/components/tabs/CreatePostTab/CreatePostTab";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { View, Button } from "react-native";
+import { Form, Item, Text, Input } from "native-base";
+import MainNavigation from "./src/MainNavigation";
 
-export default TabNavigator(
-  {
-    FeedsTab: { screen: FeedsTab },
-    CreatePostTab: { screen: CreatePostTab }
-  },
-  {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        console.log(navigation);
+class App extends Component {
+  state = {
+    authed: false
+  };
 
-        if (routeName === "FeedsTab") {
-          iconName = "feed";
-        } else if (routeName === "CreatePostTab") {
-          iconName = "plus-square-o";
+  usernameChangeHandler = value => {
+    this.setState({
+      username: value
+    });
+  };
+  passwordChangeHandler = value => {
+    this.setState({
+      password: value
+    });
+  };
+
+  loginHandler = () => {
+    fetch(
+      "https://burger-builder447.firebaseio.com/users/" +
+        this.state.username +
+        ".json"
+    )
+      .then(res => res.json())
+      .then(res => {
+        if (this.state.password === res.password) {
+          this.setState({
+            authed: true
+          });
         }
-        return (
-          <Icon name={iconName} size={horizontal ? 20 : 25} color={tintColor} />
-        );
-      }
-    }),
-    tabBarComponent: TabBarBottom,
-    tabBarPosition: "bottom",
-    tabBarOptions: {
-      activeTintColor: "tomato",
-      inactiveTintColor: "gray"
-    },
-    animationEnabled: false,
-    swipeEnabled: false
+      })
+      .catch(err => {
+        console.log(err);
+        throw err;
+      });
+  };
+
+  render() {
+    if (this.state.authed) {
+      return <MainNavigation screenProps={{ username: this.state.username }} />;
+    }
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center"
+        }}
+      >
+        <Form>
+          <Item>
+            <Input
+              onChangeText={this.usernameChangeHandler}
+              placeholder="username"
+            />
+          </Item>
+          <Item>
+            <Input
+              onChangeText={this.passwordChangeHandler}
+              placeholder="password"
+            />
+          </Item>
+        </Form>
+        <View style={{ width: "80%", alignItems: "center" }}>
+          <Button onPress={this.loginHandler} title="LOGIN" />
+        </View>
+        <Text>*Note: This is a demo auth.</Text>
+        <Text>*Note: username and password are case sensitive</Text>
+      </View>
+    );
   }
-);
+}
+export default App;
