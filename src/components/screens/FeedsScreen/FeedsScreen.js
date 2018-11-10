@@ -14,19 +14,23 @@ export default class FeedsScreen extends Component {
 
   componentWillMount() {
     if (this.state.posts.length == 0) {
-      fetch("https://jsonplaceholder.typicode.com/posts")
+      fetch("https://burger-builder447.firebaseio.com/posts.json")
         .then(res => res.json())
         .then(res => {
           this.setState({
-            posts: res.map(post => ({ ...post, key: post.postId }))
+            posts: Object.keys(res).map(key => {
+              return res[key];
+            })
           });
+        })
+        .catch(err => {
+          console.log(err);
+          throw err;
         });
     }
   }
 
   render() {
-    console.log(this.props);
-
     return (
       <View style={styles.container}>
         <FlatList

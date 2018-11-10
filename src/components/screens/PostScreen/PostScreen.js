@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PostTitle from "../../UI/PostTitle/PostTitle";
 import { View, Text, StyleSheet, TouchableNativeFeedback } from "react-native";
+import TextBox from "../../UI/TextBox/TextBox";
 
 class PostScreen extends Component {
   state = {
@@ -19,8 +20,9 @@ class PostScreen extends Component {
   fetchData() {
     if (!this.state.dataReceived) {
       fetch(
-        "https://jsonplaceholder.typicode.com/posts/" +
-          this.props.navigation.getParam("postId", "key-undef")
+        "https://burger-builder447.firebaseio.com/posts/" +
+          this.props.navigation.getParam("postId", "key-undef") +
+          ".json"
       )
         .then(res => res.json())
         .then(post => {
@@ -36,8 +38,9 @@ class PostScreen extends Component {
           throw err;
         });
       fetch(
-        "https://jsonplaceholder.typicode.com/users/" +
-          this.props.navigation.getParam("userId", "key-undef")
+        "https://burger-builder447.firebaseio.com/users/" +
+          this.props.navigation.getParam("userId", "key-undef") +
+          ".json"
       )
         .then(res => res.json())
         .then(user => {
@@ -63,8 +66,8 @@ class PostScreen extends Component {
             })
           }
         >
-          <View style={styles.userContainer}>
-            <Text style={styles.userText}>{this.state.username}</Text>
+          <View>
+            <TextBox>{this.state.username}</TextBox>
           </View>
         </TouchableNativeFeedback>
         <View style={styles.postContainer}>
@@ -77,18 +80,6 @@ class PostScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  userContainer: {
-    borderColor: "#eee",
-    borderWidth: 1,
-    margin: 2,
-    padding: 5,
-    alignItems: "flex-start",
-    backgroundColor: "white"
-  },
-  userText: {
-    fontWeight: "bold",
-    fontSize: 20
-  },
   postContainer: {
     borderColor: "#eee",
     borderWidth: 2,

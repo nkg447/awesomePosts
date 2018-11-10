@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, TouchableNativeFeedback } from "react-native";
 import PostTitle from "../UI/PostTitle/PostTitle";
+import TextBox from "../UI/TextBox/TextBox";
 
 class Post extends Component {
   state = {
@@ -8,7 +9,11 @@ class Post extends Component {
   };
 
   componentWillMount() {
-    fetch("https://jsonplaceholder.typicode.com/users/" + this.props.userId)
+    fetch(
+      "https://burger-builder447.firebaseio.com/users/" +
+        this.props.userId +
+        ".json"
+    )
       .then(res => res.json())
       .then(user => {
         this.setState({ username: user.username });
@@ -19,8 +24,8 @@ class Post extends Component {
     return (
       <View style={styles.postContainer}>
         <TouchableNativeFeedback onPress={this.props.pressedUser}>
-          <View style={styles.userContainer}>
-            <Text style={styles.userText}>{this.state.username}</Text>
+          <View>
+            <TextBox>{this.state.username}</TextBox>
           </View>
         </TouchableNativeFeedback>
         <TouchableNativeFeedback onPress={this.props.pressedPost}>
@@ -35,18 +40,6 @@ const styles = StyleSheet.create({
   postContainer: {
     margin: 5,
     padding: 10
-  },
-  userContainer: {
-    borderColor: "#eee",
-    borderWidth: 1,
-    margin: 2,
-    padding: 5,
-    alignItems: "flex-start",
-    backgroundColor: "white"
-  },
-  userText: {
-    fontWeight: "bold",
-    fontSize: 20
   }
 });
 
